@@ -1,0 +1,36 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+
+10.0.0.112   ayoungP50 
+
+
+10.0.0.104 dialga.home.younglogic.net dialga
+10.0.0.30  munchlax.home.younglogic.net munchlax
+10.127.0.3 passimian passimian.home.younglogic.net
+10.127.0.7 diglett diglett.home.younglogic.net
+
+192.168.122.25  stoutland.demo.younglogic.net stoutland
+192.168.122.152 stakataka.demo.younglogic.net stakataka tower
+
+192.168.122.127 staryu.home.younglogic.net staryu
+
+
+
+127.0.0.1 nytimes.com www.nytimes.com  nyt.com
+127.0.0.1 news.google.com 
+127.0.0.1 news.yahoo.com www.yahoo.com
+127.0.0.1 www.facebook.com facebook.com 
+127.0.0.1 www.twitter.com twitter.com
+127.0.0.1 theonion.com  www.theonion.com  
+127.0.0.1 slashdot.org  www.slashdot.org
+
+
+128.31.26.132 idm.awx.devstack
+
+10.127.0.10 idrac-zygarde
+10.127.0.11 idrac-umbreon
+10.127.0.12 idrac-zubat
+
+
+
