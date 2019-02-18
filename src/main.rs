@@ -47,16 +47,18 @@ fn main() {
     
     let contents = fs::read_to_string(filename)
         .expect("Something went wrong reading the file");
-    
-    if operation == "list" {
-        let wbyl: std::vec::Vec<std::vec::Vec<&str>> = hosts::words_by_line(&contents);
-        hosts::list(wbyl);
-    } else if operation == "set" {
-        let wbyl: std::vec::Vec<std::vec::Vec<&str>> = hosts::words_by_line(&contents);
 
+
+    
+    let manager = hosts::Manager{
+        wbyl: hosts::words_by_line(&contents)
+    };
+    if operation == "list" {    
+        hosts::list(&manager);
+    } else if operation == "set" {
         let ipaddr = &args[3];
         let hostname = &args[4];
-        hosts::set(wbyl, ipaddr, hostname);
+        hosts::set(&manager, ipaddr, hostname);
     } else{
         println!("Unknown Operation");
     }
