@@ -6,17 +6,11 @@ use getopts::Options;
 use std::env;
 use std::fs;
 
-fn words_by_line<'a>(s: &'a str) -> Vec<Vec<&'a str>> {
-    s.lines().map(|line| {
-        line.split_whitespace().collect()
-    }).collect()
-}
 
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} FILE [options]", program);
     print!("{}", opts.usage(&brief));
 }
-
 
 fn main() {
     
@@ -27,7 +21,6 @@ fn main() {
     opts.optopt("a", "address", "ipaddress, either v4 or v6", "10.10.2.1");
 
     let args: Vec<String> = env::args().collect();
-
     
     let matches = match opts.parse(&args[1..]) {
         Ok(m) => { m }
@@ -55,11 +48,11 @@ fn main() {
     let contents = fs::read_to_string(filename)
         .expect("Something went wrong reading the file");
     
-    let wbyl: std::vec::Vec<std::vec::Vec<&str>> = words_by_line(&contents);
-    
     if operation == "list" {
+        let wbyl: std::vec::Vec<std::vec::Vec<&str>> = hosts::words_by_line(&contents);
         hosts::list(wbyl);
     } else if operation == "set" {
+        let wbyl: std::vec::Vec<std::vec::Vec<&str>> = hosts::words_by_line(&contents);
 
         let ipaddr = &args[3];
         let hostname = &args[4];
