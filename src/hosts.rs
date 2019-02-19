@@ -20,7 +20,7 @@ impl <'a> Manager<'a>{
     }
 
 
-    pub fn set(&'a self, ipaddr:  &str, hostname:  &str){
+    pub fn add(&'a self, ipaddr:  &str, hostname:  &str){
         for i in &self.wbyl {
             if i[0] == ipaddr{
                 println!("insert here");
@@ -56,9 +56,9 @@ mod tests {
     }
 
     #[test]
-    fn test_empty_set() {
+    fn test_empty_add() {
         let contents = "";
         let manager = Manager::new(&contents);
-        manager.set("127.0.0.0", "slashdot.org");
+        manager.add("127.0.0.0", "slashdot.org");
     }
 }
