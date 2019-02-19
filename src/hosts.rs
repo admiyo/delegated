@@ -2,6 +2,32 @@ pub struct Manager<'a> {
     pub wbyl: std::vec::Vec<std::vec::Vec<&'a str>>
 }
 
+impl <'a> Manager<'a>{
+    pub fn list(&'a self){
+        for i in &self.wbyl {
+            for j in i{
+                print!("{} ", j);
+            }
+            println!("");
+        }
+    }
+
+
+    pub fn set(&'a self, ipaddr:  &str, hostname:  &str){
+        for i in &self.wbyl {
+            if i[0] == ipaddr{
+                println!("insert here");
+                print!("{} ", ipaddr);
+                println!("{} ", hostname);
+            }else{
+                for j in i{
+                    print!("{} ", j);
+                }
+            }
+            println!("");
+        }
+    }
+}
 
 pub fn words_by_line<'a>(s: &'a str) -> Vec<Vec<&'a str>> {
     s.lines().map(|line| {
@@ -9,30 +35,7 @@ pub fn words_by_line<'a>(s: &'a str) -> Vec<Vec<&'a str>> {
     }).collect()
 }
 
-//pub fn list(wbyl: std::vec::Vec<std::vec::Vec<&str>>){
-pub fn list(manager: &Manager){
-    for i in &manager.wbyl {
-        for j in i{
-            print!("{} ", j);
-        }
-        println!("");
-    }
-}
 
-pub fn set(manager: &Manager, ipaddr:  &str, hostname:  &str){
-    for i in &manager.wbyl {
-        if i[0] == ipaddr{
-            println!("insert here");
-            print!("{} ", ipaddr);
-            println!("{} ", hostname);
-        }else{
-            for j in i{
-                print!("{} ", j);
-            }
-        }
-        println!("");
-    }
-}
 
 #[cfg(test)]
 mod tests {
@@ -43,7 +46,7 @@ mod tests {
         let manager = Manager{
             wbyl: words_by_line(&contents)
         };
-        list(&manager);
+        manager.list();
     }
 
     #[test]
@@ -52,6 +55,6 @@ mod tests {
         let manager = Manager{
             wbyl: words_by_line(&contents)
         };
-        set(&manager, "127.0.0.0", "slashdot.org");
+        manager.set("127.0.0.0", "slashdot.org");
     }
 }

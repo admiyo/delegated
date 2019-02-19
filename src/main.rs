@@ -48,17 +48,16 @@ fn main() {
     let contents = fs::read_to_string(filename)
         .expect("Something went wrong reading the file");
 
-
     
     let manager = hosts::Manager{
         wbyl: hosts::words_by_line(&contents)
     };
     if operation == "list" {    
-        hosts::list(&manager);
+        manager.list();
     } else if operation == "set" {
         let ipaddr = &args[3];
         let hostname = &args[4];
-        hosts::set(&manager, ipaddr, hostname);
+        manager.set(ipaddr, hostname);
     } else{
         println!("Unknown Operation");
     }
