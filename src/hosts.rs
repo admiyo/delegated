@@ -3,6 +3,13 @@ pub struct Manager<'a> {
 }
 
 impl <'a> Manager<'a>{
+
+    pub fn new (contents: &'a str) -> Manager {
+        Manager{
+            wbyl: words_by_line(&contents)
+        } 
+    }
+
     pub fn list(&'a self){
         for i in &self.wbyl {
             for j in i{
@@ -36,7 +43,6 @@ pub fn words_by_line<'a>(s: &'a str) -> Vec<Vec<&'a str>> {
 }
 
 
-
 #[cfg(test)]
 mod tests {
      use super::*;
@@ -52,9 +58,7 @@ mod tests {
     #[test]
     fn test_empty_set() {
         let contents = "";
-        let manager = Manager{
-            wbyl: words_by_line(&contents)
-        };
+        let manager = Manager::new(&contents);
         manager.set("127.0.0.0", "slashdot.org");
     }
 }

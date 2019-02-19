@@ -49,9 +49,7 @@ fn main() {
         .expect("Something went wrong reading the file");
 
     
-    let manager = hosts::Manager{
-        wbyl: hosts::words_by_line(&contents)
-    };
+    let manager = hosts::Manager::new(&contents);
     if operation == "list" {    
         manager.list();
     } else if operation == "set" {
