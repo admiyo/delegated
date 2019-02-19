@@ -15,10 +15,9 @@ fn print_usage(program: &str, opts: Options) {
 fn main() {
     
     let mut opts = Options::new();
-    opts.optopt("o", "operation", "operation to perform", "list, set, delete");
     opts.optflag("h", "help", "print this help menu");
-    opts.optopt("f", "filename", "file to read and write","/etc/hosts");
-    opts.optopt("a", "address", "ipaddress, either v4 or v6", "10.10.2.1");
+    opts.optopt("f", "hostfile", "file to read and write","/etc/hosts");
+    opts.optopt("d", "directory", "directory from which to read changes", "");
 
     let args: Vec<String> = env::args().collect();
     
@@ -32,13 +31,7 @@ fn main() {
         print_usage(&program, opts);
         return;
     }    
-    let operation: String;
     let filename: String;
-
-    match matches.opt_str("o") {
-        Some(x) => operation = x,
-        None => operation = "list".to_string()
-    }
 
     match matches.opt_str("f"){
         Some(x) => filename = x,
@@ -50,14 +43,7 @@ fn main() {
 
     
     let manager = hosts::Manager::new(&contents);
-    if operation == "list" {    
         manager.list();
-    } else if operation == "set" {
-        let ipaddr = &args[3];
-        let hostname = &args[4];
-        manager.set(ipaddr, hostname);
-    } else{
-        println!("Unknown Operation");
-    }
+
 }
 
