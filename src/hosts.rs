@@ -55,18 +55,14 @@ mod tests {
     #[test]
     fn test_empty_list() {
         let  contents = "";
-        let manager = Manager{
-            wbyl: words_by_line(&contents)
-        };
+        let manager = Manager::new(contents);
         let out = manager.list();
         assert_eq!(out,"");
     }
     #[test]
     fn test_sample_list() {
         let contents = SAMPLEDATA;
-        let manager = Manager{
-            wbyl: words_by_line(&contents)
-        };
+        let manager = Manager::new(contents);
         let out = manager.list();
         assert_eq!(out,SAMPLEDATA);
     }
