@@ -1,11 +1,11 @@
-pub struct Manager<'a> {
+pub struct Hosts<'a> {
     pub wbyl: std::vec::Vec<std::vec::Vec<&'a str>>
 }
 
-impl <'a> Manager<'a>{
+impl <'a> Hosts<'a>{
 
-    pub fn new (contents: &'a str) -> Manager {
-        Manager{
+    pub fn new (contents: &'a str) -> Hosts {
+        Hosts{
             wbyl: words_by_line(&contents)
         }
     }
@@ -55,14 +55,14 @@ mod tests {
     #[test]
     fn test_empty_list() {
         let  contents = "";
-        let manager = Manager::new(contents);
+        let manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,"");
     }
     #[test]
     fn test_sample_list() {
         let contents = SAMPLEDATA;
-        let manager = Manager::new(contents);
+        let manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,SAMPLEDATA);
     }
@@ -71,7 +71,7 @@ mod tests {
     #[test]
     fn test_empty_add() {
         let contents = "";
-        let manager = Manager::new(&contents);
+        let manager = Hosts::new(&contents);
         manager.add("127.0.0.0", "slashdot.org");
     }
 

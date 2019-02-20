@@ -42,7 +42,7 @@ fn main() {
         .expect("Something went wrong reading the file");
 
     
-    let manager = hosts::Manager::new(&contents);
+    let manager = hosts::Hosts::new(&contents);
         manager.list();
 
 }
