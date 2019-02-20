@@ -1,12 +1,10 @@
 pub struct Hosts {
-    contents: String,
     lines: Vec<Vec<String>>
 }
 
 impl Hosts{
 
     pub fn new (contents:  String) -> Hosts {
-        let s = contents.clone();
         let l = words_by_line(&contents);
 
         let mut lines = Vec::new();
@@ -17,16 +15,12 @@ impl Hosts{
             }
             lines.push(line);
         }
-
         Hosts{
-            contents: s,
             lines: lines
         }
     }
 
-    pub fn list(& mut self) -> String{
-
-
+    pub fn list(& self) -> String{
         let mut out: String = String::new();
         for i in &self.lines {
             for j in i {
@@ -37,9 +31,7 @@ impl Hosts{
             }
             out.push_str("\n");
         }
-        self.contents = out.clone();
-
-        self.contents.clone()
+        out.clone()
     }
 
 
@@ -72,14 +64,14 @@ mod tests {
     #[test]
     fn test_empty_list() {
         let  contents = "".to_string();
-        let mut manager = Hosts::new(contents);
+        let manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,"");
     }
     #[test]
     fn test_sample_list() {
         let contents = SAMPLEDATA.to_string();
-        let mut manager = Hosts::new(contents);
+        let manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,SAMPLEDATA);
     }
