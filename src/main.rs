@@ -41,7 +41,7 @@ fn main() {
         .expect("Something went wrong reading the file");
 
     
-    let manager = hosts::Hosts::new(contents.to_string());
+    let mut manager = hosts::Hosts::new(contents.to_string());
         manager.list();
 
 }

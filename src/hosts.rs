@@ -1,8 +1,6 @@
-
-
-
 pub struct Hosts {
-    contents: String        
+    contents: String,
+    lines: Vec<Vec<String>>
 }
 
 impl Hosts{
@@ -10,37 +8,27 @@ impl Hosts{
     pub fn new (contents:  String) -> Hosts {
         let s = contents.clone();
         let l = words_by_line(&contents);
+
+        let mut lines = Vec::new();
+        for i in l {
+            let mut line: Vec<String> = Vec::new();
+            for j in i {
+                line.push(j.to_string());
+            }
+            lines.push(line);
+        }
+
         Hosts{
             contents: s,
-                
+            lines: lines
         }
     }
 
-    pub fn list(& self) -> String{
-        self.contents.clone()        
-    }
+    pub fn list(& mut self) -> String{
 
 
-    pub fn add(& mut self, ipaddr:  &str, hostname:  &str){
-
-        let mut wbyl =  words_by_line(&self.contents);
-
-        for i in &wbyl {
-            if i[0] == ipaddr{
-                for j in i{
-                    if j == &hostname{
-                        //Found it. 
-                        return
-                    }
-                }
-            }
-        }
-        wbyl.push(vec!("ipaddr", "hostname"));
-
-        
         let mut out: String = String::new();
-        
-        for i in &wbyl {
+        for i in &self.lines {
             for j in i {
                 out.push_str(&format!("{} ", j));
             }
@@ -51,7 +39,22 @@ impl Hosts{
         }
         self.contents = out.clone();
 
-        
+        self.contents.clone()
+    }
+
+
+    pub fn add(& mut self, ipaddr:  &str, hostname:  &str){
+        for i in &self.lines {
+            if i[0] == ipaddr{
+                for j in i{
+                    if j == &hostname{
+                        //Found it.
+                        return
+                    }
+                }
+            }
+        }
+        self.lines.push(vec![ipaddr.to_string(), hostname.to_string()]);
     }
 }
 
@@ -69,26 +72,25 @@ mod tests {
     #[test]
     fn test_empty_list() {
         let  contents = "".to_string();
-        let manager = Hosts::new(contents);
+        let mut manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,"");
     }
     #[test]
     fn test_sample_list() {
         let contents = SAMPLEDATA.to_string();
-        let manager = Hosts::new(contents);
+        let mut manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,SAMPLEDATA);
     }
-
 
     #[test]
     fn test_empty_add() {
         let contents = "".to_string();
         let mut manager = Hosts::new(contents);
         manager.add("127.0.0.0", "slashdot.org");
-        manager.add("10.10.2.1", "tower");
         let out = manager.list();
+        assert_eq!(out,"127.0.0.0 slashdot.org\n");
     }
 
 
