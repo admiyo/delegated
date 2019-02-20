@@ -1,18 +1,46 @@
-pub struct Hosts<'a> {
-    pub wbyl: std::vec::Vec<std::vec::Vec<&'a str>>
+
+
+
+pub struct Hosts {
+    contents: String        
 }
 
-impl <'a> Hosts<'a>{
+impl Hosts{
 
-    pub fn new (contents: &'a str) -> Hosts {
+    pub fn new (contents:  String) -> Hosts {
+        let s = contents.clone();
+        let l = words_by_line(&contents);
         Hosts{
-            wbyl: words_by_line(&contents)
+            contents: s,
+                
         }
     }
 
-    pub fn list(&'a self) -> String{
-        let mut out = String::new();
-        for i in &self.wbyl {
+    pub fn list(& self) -> String{
+        self.contents.clone()        
+    }
+
+
+    pub fn add(& mut self, ipaddr:  &str, hostname:  &str){
+
+        let mut wbyl =  words_by_line(&self.contents);
+
+        for i in &wbyl {
+            if i[0] == ipaddr{
+                for j in i{
+                    if j == &hostname{
+                        //Found it. 
+                        return
+                    }
+                }
+            }
+        }
+        wbyl.push(vec!("ipaddr", "hostname"));
+
+        
+        let mut out: String = String::new();
+        
+        for i in &wbyl {
             for j in i {
                 out.push_str(&format!("{} ", j));
             }
@@ -21,23 +49,9 @@ impl <'a> Hosts<'a>{
             }
             out.push_str("\n");
         }
-        out
-    }
+        self.contents = out.clone();
 
-
-    pub fn add(&'a self, ipaddr:  &str, hostname:  &str){
-        for i in &self.wbyl {
-            if i[0] == ipaddr{
-                println!("insert here");
-                print!("{} ", ipaddr);
-                println!("{} ", hostname);
-            }else{
-                for j in i{
-                    print!("{} ", j);
-                }
-            }
-            println!("");
-        }
+        
     }
 }
 
@@ -54,14 +68,14 @@ mod tests {
 
     #[test]
     fn test_empty_list() {
-        let  contents = "";
+        let  contents = "".to_string();
         let manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,"");
     }
     #[test]
     fn test_sample_list() {
-        let contents = SAMPLEDATA;
+        let contents = SAMPLEDATA.to_string();
         let manager = Hosts::new(contents);
         let out = manager.list();
         assert_eq!(out,SAMPLEDATA);
@@ -70,9 +84,11 @@ mod tests {
 
     #[test]
     fn test_empty_add() {
-        let contents = "";
-        let manager = Hosts::new(&contents);
+        let contents = "".to_string();
+        let mut manager = Hosts::new(contents);
         manager.add("127.0.0.0", "slashdot.org");
+        manager.add("10.10.2.1", "tower");
+        let out = manager.list();
     }
 
 

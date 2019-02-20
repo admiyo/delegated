@@ -1,4 +1,3 @@
-
 mod hosts;
 
 extern crate getopts;
@@ -42,7 +41,7 @@ fn main() {
         .expect("Something went wrong reading the file");
 
     
-    let manager = hosts::Hosts::new(&contents);
+    let manager = hosts::Hosts::new(contents.to_string());
         manager.list();
 
 }
