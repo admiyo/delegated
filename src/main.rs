@@ -3,8 +3,41 @@ mod hosts;
 extern crate getopts;
 use getopts::Options;
 use std::env;
-use std::fs;
 
+use std::io;
+use std::fs::{self, DirEntry};
+use std::path::Path;
+
+
+
+
+// one possible implementation of walking a directory only visiting files
+fn visit_dirs(dir: &Path) -> io::Result<()> {
+    if dir.is_dir() {
+        for e in fs::read_dir(dir)? {
+            
+            let entry = e?;
+            let path = entry.path();
+            let s: String;
+            
+            match path.to_str(){
+                Some(x) => s = x.to_string(),
+                None => s = String::new()
+            }
+            if path.is_dir() {
+                visit_dirs(&path)?;
+            } else {
+                if s.ends_with("yml"){
+                    println!("{}",s);
+                    let contents = fs::read_to_string(path)
+                        .expect("Something went wrong reading the file");
+                    print!("{:?}", contents);
+                }
+            }
+        }
+    }
+    Ok(())
+}
 
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} FILE [options]", program);
@@ -45,5 +78,11 @@ fn main() {
         None => dir = "/var/lib/hosts".to_string()
     }
 
-    print!("{}", manager.list());
+    println!("Directory = {}", dir);
+    let dir_path = Path::new(&dir);
+
+
+    visit_dirs(dir_path);
+    
+   // print!("{}", manager.list());
 }
