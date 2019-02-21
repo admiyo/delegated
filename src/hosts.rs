@@ -48,6 +48,17 @@ impl Hosts{
         }
         self.lines.push(vec![ipaddr.to_string(), hostname.to_string()]);
     }
+
+    pub fn del(& mut self, ipaddr:  &str, hostname:  &str){
+        let host = vec![ipaddr.to_string(), hostname.to_string()];
+        let i = self.lines.iter().position(|x| x == &host);
+        match i {
+            Some(l) => self.lines.remove(l),
+            None => Vec::new(),
+        };
+    }
+
+    
 }
 
 pub fn words_by_line<'a>(s: &'a str) -> Vec<Vec<&'a str>> {
@@ -76,6 +87,19 @@ mod tests {
         assert_eq!(out,SAMPLEDATA);
     }
 
+
+    #[test]
+    fn test_delete() {
+        let contents = "127.0.0.0 slashdot.org\n".to_string();
+        let mut manager = Hosts::new(contents);
+        let orig = manager.list();
+        assert_eq!(orig, "127.0.0.0 slashdot.org\n");
+        manager.del("127.0.0.0","slashdot.org");
+        let out = manager.list();
+        assert_eq!(out, "");
+    }
+
+    
     #[test]
     fn test_empty_add() {
         let contents = "".to_string();
