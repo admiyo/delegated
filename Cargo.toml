@@ -6,3 +6,5 @@ edition = "2018"
 
 [dependencies]
 getopts = "0.2"
+yaml-rust = "0.4.2"
+linked-hash-map = "0.5.1"

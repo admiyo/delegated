@@ -37,6 +37,9 @@ impl Hosts{
 
     pub fn add(& mut self, ipaddr:  &str, hostname:  &str){
         for i in &self.lines {
+            if i.len() == 0{
+                continue;
+            }
             if i[0] == ipaddr{
                 for j in i{
                     if j == &hostname{
