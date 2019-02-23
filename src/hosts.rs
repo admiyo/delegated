@@ -121,10 +121,15 @@ pub fn visit_dirs(dir: &Path, hosts: &mut Hosts) -> io::Result<()> {
     Ok(())
 }
 
+pub fn load_hosts(filename: &str)->Hosts{
+    let contents = fs::read_to_string(filename).
+        expect("Something went wrong reading the file");
+    Hosts::new(contents.to_string())
+}
+
 pub fn run(dir: &str, filename: &str) {
+    let mut  hosts = load_hosts(filename);
     let dir_path = Path::new(dir);
-    let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
-    let mut hosts = Hosts::new(contents.to_string());
     visit_dirs(dir_path, &mut hosts).unwrap();
     print!("{}", hosts.list());
 }
@@ -179,9 +184,7 @@ mod tests {
 
     #[test]
     fn test_parse() {
-        let contents =
-            fs::read_to_string(TEST_HOSTS_FILE).expect("Something went wrong reading the file");
-        let hosts = Hosts::new(contents.to_string());
+        let hosts = load_hosts(TEST_HOSTS_FILE);
         hosts.list();
     }
 
