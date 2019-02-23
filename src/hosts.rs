@@ -132,15 +132,15 @@ pub fn visit_dirs(dir: &Path, hosts: &mut Hosts) -> io::Result<()> {
     Ok(())
 }
 
+
+
 pub fn run(dir: &str, filename: &str){
-    println!("Directory = {}", dir);
     let dir_path = Path::new(dir);
     let contents = fs::read_to_string(filename)
         .expect("Something went wrong reading the file");
     let mut manager = Hosts::new(contents.to_string());
     visit_dirs(dir_path, &mut manager).unwrap();
     print!("{}", manager.list());
-
 }
 
 
@@ -189,7 +189,9 @@ mod tests {
 
     #[test]
     fn test_functional() {
-        run("./data","data/hosts");
+        let data_dir = "./data";
+        let hosts_file = "data/hosts";
+        run(data_dir, hosts_file);
     }
 
     
