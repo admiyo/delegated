@@ -121,16 +121,14 @@ pub fn visit_dirs(dir: &Path, hosts: &mut Hosts) -> io::Result<()> {
     Ok(())
 }
 
-pub fn load_hosts(filename: &str)->Hosts{
-    let contents = fs::read_to_string(filename).
-        expect("Something went wrong reading the file");
+pub fn load_hosts(filename: &str) -> Hosts {
+    let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
     Hosts::new(contents.to_string())
 }
 
 pub fn run(dir: &str, filename: &str) {
-    let mut  hosts = load_hosts(filename);
-    let dir_path = Path::new(dir);
-    visit_dirs(dir_path, &mut hosts).unwrap();
+    let mut hosts = load_hosts(filename);
+    visit_dirs(Path::new(dir), &mut hosts).unwrap();
     print!("{}", hosts.list());
 }
 
@@ -186,6 +184,14 @@ mod tests {
     fn test_parse() {
         let hosts = load_hosts(TEST_HOSTS_FILE);
         hosts.list();
+    }
+
+    #[test]
+    fn test_modify() {
+        let mut hosts = load_hosts(TEST_HOSTS_FILE);
+        assert!(hosts.list().contains("passimian.home.younglogic.net"));
+        visit_dirs(Path::new(TEST_DATA_DIR), &mut hosts).unwrap();
+        assert!(!hosts.list().contains("passimian.home.younglogic.net"));
     }
 
     const SAMPLEDATA: &'static str =
