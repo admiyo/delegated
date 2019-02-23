@@ -189,7 +189,7 @@ mod tests {
 
     #[test]
     fn test_functional() {
-        let data_dir = "./data";
+        let data_dir = "./data/hosts.d";
         let hosts_file = "data/hosts";
         run(data_dir, hosts_file);
     }
