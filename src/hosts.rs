@@ -149,6 +149,9 @@ pub fn run(dir: &str, filename: &str){
 mod tests {
     use super::*;
 
+    const TEST_DATA_DIR: &str = "./data/hosts.d";
+    const TEST_HOSTS_FILE: &str = "data/hosts";
+
     #[test]
     fn test_empty_list() {
         let  contents = "".to_string();
@@ -189,10 +192,17 @@ mod tests {
 
     #[test]
     fn test_functional() {
-        let data_dir = "./data/hosts.d";
-        let hosts_file = "data/hosts";
-        run(data_dir, hosts_file);
+        run(TEST_DATA_DIR, TEST_HOSTS_FILE);
     }
+
+    #[test]
+    fn test_parse() {
+        let contents = fs::read_to_string(TEST_HOSTS_FILE)
+            .expect("Something went wrong reading the file");
+        let hosts = Hosts::new(contents.to_string());
+        hosts.list();
+    }
+
 
     
     const SAMPLEDATA: &'static str =
