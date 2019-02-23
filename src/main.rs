@@ -5,8 +5,6 @@ extern crate yaml_rust;
 
 use getopts::Options;
 use std::env;
-use std::fs;
-use std::path::Path;
 
 
 fn print_usage(program: &str, opts: Options) {
@@ -45,18 +43,8 @@ fn main() {
         None => dir = "/var/lib/hosts".to_string()
     }
 
-    run(dir, filename);
+    hosts::run(&dir, &filename);
     
 }
 
 
-fn run(dir: String, filename: String){
-    println!("Directory = {}", dir);
-    let dir_path = Path::new(&dir);
-    let contents = fs::read_to_string(filename)
-        .expect("Something went wrong reading the file");
-    let mut manager = hosts::Hosts::new(contents.to_string());
-    hosts::visit_dirs(dir_path, &mut manager).unwrap();
-    print!("{}", manager.list());
-
-}
