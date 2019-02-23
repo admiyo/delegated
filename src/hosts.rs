@@ -138,9 +138,9 @@ pub fn run(dir: &str, filename: &str){
     let dir_path = Path::new(dir);
     let contents = fs::read_to_string(filename)
         .expect("Something went wrong reading the file");
-    let mut manager = Hosts::new(contents.to_string());
-    visit_dirs(dir_path, &mut manager).unwrap();
-    print!("{}", manager.list());
+    let mut hosts = Hosts::new(contents.to_string());
+    visit_dirs(dir_path, &mut hosts).unwrap();
+    print!("{}", hosts.list());
 }
 
 
